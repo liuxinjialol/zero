@@ -14,16 +14,14 @@ public class Employee implements Serializable{
 	private String id;
 	private String firstName;
 	private String lastName;
-//	private String emailId;
 	
 	public Employee() {
 		
 	}
 	
-	public Employee(String firstName, String lastName, String emailId) {
+	public Employee(String firstName, String lastName) {
 		this.firstName = firstName;
 		this.lastName = lastName;
-//		this.emailId = emailId;
 	}
 	
 	public String getId() {

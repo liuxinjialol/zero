@@ -5,13 +5,14 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import net.guides.bean.entity.Employee;
 
 @Repository
-public interface EmployeeRepository extends JpaRepository<Employee, String>{
+public interface EmployeeRepository extends JpaRepository<Employee, String>,JpaSpecificationExecutor<Employee> {
 	
 	@Query(value="select * from employees where id=? or first_name=?",nativeQuery=true)
 	public  List<Employee>  searchByIdorName(String id,String name);
