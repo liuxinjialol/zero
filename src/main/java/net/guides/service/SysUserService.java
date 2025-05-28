@@ -1,31 +1,14 @@
 package net.guides.service;
 
-import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
-
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Path;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
-import jakarta.validation.Valid;
-import net.guides.bean.entity.Employee;
 import net.guides.bean.entity.SysUser;
-import net.guides.dto.EmployeeQueryDTO;
 import net.guides.dto.SysUserCreateDTO;
 import net.guides.dto.SysUserUpdateDTO;
 import net.guides.dto.SysUserViewDTO;
-import net.guides.repository.EmployeeRepository;
 import net.guides.repository.SysUserRepository;
 
 @Service

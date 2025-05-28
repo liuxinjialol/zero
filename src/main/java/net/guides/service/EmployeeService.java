@@ -10,15 +10,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
-
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
 import net.guides.bean.entity.Employee;
-import net.guides.dto.EmployeeQueryDTO;
+import net.guides.dto.EmployeeListViewDTO;
 import net.guides.repository.EmployeeRepository;
 
 @Service
@@ -65,7 +60,7 @@ public class EmployeeService {
 		return this.repository.searchByIn(ids);
 	}
 
-	public List<Employee> findList(EmployeeQueryDTO queryDTO) {
+	public List<Employee> findList(EmployeeListViewDTO queryDTO) {
 
 		Specification<Employee> specification = (Specification<Employee>) (root, query, cb) -> {
 	
