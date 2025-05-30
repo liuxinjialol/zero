@@ -47,6 +47,7 @@ public class EmployeeService {
 		return this.repository.findById(id);
 	}
 
+	@Transactional
 	public Employee save(Employee employee) {
 		this.repository.save(employee);
 		return employee;
@@ -73,8 +74,24 @@ public class EmployeeService {
 			return cb.and(p1, p2);
 
 		};
-
 		return this.repository.findAll(specification);
+	}
+
+
+	public Page<Employee> findPage(EmployeeListViewDTO queryDTO, Pageable pageable) {
+
+		Specification<Employee> specification = (Specification<Employee>) (root, query, cb) -> {
+	
+			Path<String> path1 = root.get("id");
+			Predicate p1 = cb.equal(path1, queryDTO.getId());
+
+			Path<String> path2 = root.get("firstName");
+			Predicate p2 = cb.like(path2, "%" + queryDTO.getFirstName() + "%");
+
+			return cb.and(p1, p2);
+
+		};
+		return this.repository.findAll(specification,pageable);
 
 	}
 
