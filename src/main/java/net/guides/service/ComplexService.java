@@ -1,8 +1,6 @@
 package net.guides.service;
 
-import java.math.BigInteger;
 import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -10,13 +8,6 @@ import org.springframework.stereotype.Service;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.JoinType;
-import jakarta.persistence.criteria.Root;
-import jakarta.persistence.criteria.Join;
-import net.guides.bean.entity.SysUser;
-import net.guides.bean.entity.SysUserRole;
 import net.guides.dto.ComplexDTO;
 import net.guides.dto.EmployeeListViewDTO;
 
@@ -95,8 +86,14 @@ public class ComplexService {
 
         
         Query query1 = entityManager.createNativeQuery(sql, ComplexDTO.class);
-        query1.setFirstResult(7);
-        query1.setMaxResults(5);
+        if(pageable!=null) {
+            long l = pageable.getOffset();
+            if (l >= Integer.MIN_VALUE && l <= Integer.MAX_VALUE) {
+                query1.setFirstResult((int)l);
+                query1.setMaxResults(pageable.getPageSize());
+            }         
+        }
+
         List<ComplexDTO> list = query1.getResultList();
 
         String countSql = "SELECT COUNT(*) FROM ( " + sql + " ) AS countTable";
