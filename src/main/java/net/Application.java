@@ -4,11 +4,12 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
 
-import org.hibernate.query.Page;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
@@ -49,7 +50,21 @@ public class Application {
 		ComplexService service=context.getBean(ComplexService.class);
 		// service.query1();
 		// service.query2();
-		service.query3();
+		PageRequest pageable = PageRequest.of(2, 3);
+		Page<ComplexDTO> page =service.query3(pageable);
+		System.out.println("Total Elements: " + page.getTotalElements());
+		System.out.println("Total Pages: " + page.getTotalPages());
+		System.out.println("Page Number: " + page.getNumber());
+		System.out.println("Page Size: " + page.getSize());
+		System.out.println("Content:");
+		for (ComplexDTO dto : page.getContent()) {
+			System.out.println("UserId: " + dto.getUserId());
+			System.out.println("RealName: " + dto.getRealName());
+			System.out.println("LoginName: " + dto.getLoginName());
+			System.out.println("RoleId: " + dto.getRoleId());
+			System.out.println("RoleName: " + dto.getRoleName());
+			System.out.println("RoleCode: " + dto.getRoleCode());
+		}
 
 
 		// EmployeeRepository  service = context.getBean(EmployeeRepository.class);

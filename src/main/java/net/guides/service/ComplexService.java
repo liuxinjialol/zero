@@ -2,6 +2,10 @@ package net.guides.service;
 
 import java.math.BigInteger;
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -53,7 +57,7 @@ public class ComplexService {
         }
     }
 
-    public void query2() {
+    public List<ComplexDTO> query2() {
 
         String sql = """
                     SELECT u.id AS userId,u.real_name AS realName,u.login_name AS loginName,
@@ -75,10 +79,10 @@ public class ComplexService {
             System.out.println("RoleCodes: " + complexDTO.getRoleCode());
             System.out.println("-----------------------------");
         }
-        
+        return list;
     }
 
-    public void query3() {
+    public Page<ComplexDTO> query3(Pageable pageable) {
 
        String sql = """
                     SELECT u.id AS userId,u.real_name AS realName,u.login_name AS loginName,
@@ -93,22 +97,14 @@ public class ComplexService {
         Query query1 = entityManager.createNativeQuery(sql, ComplexDTO.class);
         query1.setFirstResult(7);
         query1.setMaxResults(5);
-       
         List<ComplexDTO> list = query1.getResultList();
-        for (ComplexDTO complexDTO : list) {
-            System.out.println("UserId: " + complexDTO.getUserId());
-            System.out.println("RealName: " + complexDTO.getRealName());
-            System.out.println("LoginName: " + complexDTO.getLoginName());
-            System.out.println("RoleIds: " + complexDTO.getRoleId());
-            System.out.println("RoleNames: " + complexDTO.getRoleName());
-            System.out.println("RoleCodes: " + complexDTO.getRoleCode());
-            System.out.println("-----------------------------");
-        }
 
         String countSql = "SELECT COUNT(*) FROM ( " + sql + " ) AS countTable";
         Query query2 = entityManager.createNativeQuery(countSql);
-        long max = (Long)query2.getSingleResult();
-        System.out.println("Max Results: " + max);
+        long totalCount = (Long)query2.getSingleResult();
+       
+        Page<ComplexDTO> page = new PageImpl<>(list,pageable,totalCount);
+        return page;
     }
 
 
